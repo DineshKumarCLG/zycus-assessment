@@ -32,15 +32,6 @@ def run_weekly(
     3. Generate LLM reasoning (or fallback)
     4. Assemble and validate the WeeklyReport
     5. Write to data/weekly/{project_name}/{YYYY-MM-DD}.json
-
-    Args:
-        filepath: Path to the Excel project plan.
-        effective_date: Override "today" for simulated runs.
-        output_dir: Root directory for weekly outputs.
-        api_key: NVIDIA NIM API key (or reads from env).
-
-    Returns:
-        The validated WeeklyReport.
     """
     run_date = effective_date or date.today()
     logger.info("Starting weekly run for %s (date=%s)", filepath, run_date)

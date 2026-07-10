@@ -61,13 +61,7 @@ def generate_reasoning(
     project_name: str,
     api_key: Optional[str] = None,
 ) -> str:
-    """Call NIM to generate a plain-English reasoning narrative with fallback models.
-
-    Args:
-        signal: The SignalResult from the Signal Engine.
-        project_name: Human-readable project name for context.
-        api_key: NVIDIA NIM API key. If None, reads from NVIDIA_API_KEY env var.
-    """
+    """Call NIM to generate a plain-English reasoning narrative with fallback models."""
     key = api_key or os.environ.get("NVIDIA_API_KEY")
     if not key:
         msg = (

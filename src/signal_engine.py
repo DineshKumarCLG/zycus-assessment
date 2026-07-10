@@ -22,14 +22,7 @@ def compute_signals(
     project: ProjectData,
     effective_date: Optional[date] = None,
 ) -> SignalResult:
-    """Run all five scoring dimensions and produce the final SignalResult.
-
-    Args:
-        project: The common internal shape from the Ingestion Layer.
-        effective_date: Override for "today" — used for simulated weekly runs.
-                        Falls back to the Summary sheet's Today's Date, then
-                        actual today.
-    """
+    """Run all five scoring dimensions and produce the final SignalResult."""
     today = effective_date
     if today is None and project.summary and project.summary.todays_date:
         today = project.summary.todays_date
