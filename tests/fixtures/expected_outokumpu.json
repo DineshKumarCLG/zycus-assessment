@@ -1,0 +1,15 @@
+{
+  "project_name": "Outokumpu- S2P Project",
+  "sub_scores": {
+    "schedule": "Red",
+    "milestone_health": "Green",
+    "blockers": "Amber",
+    "budget_burn": "Not Assessed",
+    "stakeholder_sentiment": "Red"
+  },
+  "overall_rag": "Red",
+  "source_reported_rag": "Green",
+  "disagreement_flag": true,
+  "evidence_count": 6,
+  "data_gaps_count": 3
+}

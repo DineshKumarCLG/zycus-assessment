@@ -1,0 +1,73 @@
+[
+  {
+    "slide_number": 1,
+    "title": "",
+    "content": [
+      "Executive Portfolio Performance & Health Synthesis",
+      "Comprehensive cross-project analysis for reporting period: 2026-06-15 to 2026-07-10",
+      "Covering 2 active projects with simulated weekly historical runs to analyze RAG trends",
+      "Systemic evaluation of schedule variance, blocker escalation, stakeholder sentiment, and data completeness"
+    ]
+  },
+  {
+    "slide_number": 2,
+    "title": "",
+    "content": [
+      "Portfolio Executive Summary",
+      "Bifurcated overall health: one project in critical distress (Red) while the other displays moderate operational risk (Amber).",
+      "Pervasive status underreporting: computed indicators reveal critical performance bottlenecks not reflected in PM-reported statuses.",
+      "Portfolio-wide budget blindspot: zero financial visibility across all active projects due to missing budget data in source sheets."
+    ]
+  },
+  {
+    "slide_number": 3,
+    "title": "",
+    "content": [
+      "Cross-Project Health & Schedule Trends",
+      "Outokumpu- S2P Project: RAG sequence over 6 weeks exhibits stagnation: Red \u2192 Red \u2192 Red \u2192 Red \u2192 Red \u2192 Red",
+      "- Schedule drift remains unmitigated on Outokumpu- S2P Project (schedule subscore: Red)",
+      "Project Plan: RAG sequence over 6 weeks exhibits stagnation: Amber \u2192 Amber \u2192 Amber \u2192 Red \u2192 Amber \u2192 Amber"
+    ]
+  },
+  {
+    "slide_number": 4,
+    "title": "",
+    "content": [
+      "Emerging Portfolio Risks & Blockers",
+      "Escalating blockers: task-level blocking issues are rising, directly impacting milestone completion rates.",
+      "Timeline slippage: critical path task delay is compounding, creating high-risk downstream milestones.",
+      "Communication gaps: lack of qualitative commentary ('Status Comment' columns blank) hides qualitative risk indicators."
+    ]
+  },
+  {
+    "slide_number": 5,
+    "title": "",
+    "content": [
+      "Status Disagreement & Reporting Audits",
+      "Systemic optimism bias: Disagreement flags active in 11/12 of weekly reports.",
+      "- Outokumpu- S2P Project: PM-reported 'Green' status directly contradicts mathematically computed 'Red' status.",
+      "- Project Plan: PM-reported 'Red' status directly contradicts mathematically computed 'Amber' status."
+    ]
+  },
+  {
+    "slide_number": 6,
+    "title": "",
+    "content": [
+      "Data Quality & Portfolio Visibility Gaps",
+      "Critical financial blindspot: 'Budget Burn' dimension is 100% Not Assessed due to missing cost columns in all source sheets.",
+      "Stakeholder sentiment impairment: reliance on secondary metadata because Status Comments were left completely blank.",
+      "Quality recommendation: standardized project management tracking format is required to restore full portfolio visibility."
+    ]
+  },
+  {
+    "slide_number": 7,
+    "title": "",
+    "content": [
+      "Executive Insights & Recommendations",
+      "1. Launch immediate executive recovery audit on Outokumpu - S2P Project to remediate critical schedule slips.",
+      "2. Establish standard project management tracking templates to reconcile reported statuses with objective mathematical delay metrics.",
+      "3. Mandate inclusion of standard cost/budget metrics in weekly files to enable financial performance scoring.",
+      "4. Enforce mandatory completion of qualitative task status comments to capture emerging operational risks early."
+    ]
+  }
+]

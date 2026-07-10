@@ -1,0 +1,42 @@
+# Python / Environment virtual environments
+venv/
+venv_new/
+.venv/
+env/
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.mypy_cache/
+.pytest_cache/
+
+# Frontend / Next.js builds
+node_modules/
+node_modules*/
+.next/
+out/
+build/
+dist/
+
+# Logs & Temp files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Agent specific instruction files (hiding developer system configurations from recruiters)
+AGENTS.md
+CLAUDE.md
+BUILD_HARNESS_AND_LOOP_ENGINEERING.md
+.ui-craft/
+.gemini/

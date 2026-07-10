@@ -1,0 +1,28 @@
+{
+  "project_name": "Outokumpu- S2P Project",
+  "run_date": "2026-07-10",
+  "overall_rag": "Red",
+  "source_reported_rag": "Green",
+  "disagreement_flag": true,
+  "sub_scores": {
+    "schedule": "Red",
+    "milestone_health": "Green",
+    "blockers": "Amber",
+    "budget_burn": "Not Assessed",
+    "stakeholder_sentiment": "Red"
+  },
+  "evidence": [
+    "Schedule RED: 1 task(s) with >10-day slip: Production & Cutover (+15d)",
+    "Milestone GREEN: 71% complete vs 57% expected (209/367 days elapsed) — on/ahead of pace",
+    "Blockers AMBER: 68/493 tasks blocked (13.8%)",
+    "Budget: Not Assessed — no cost/budget columns in source file",
+    "Sentiment RED: 4 stale asks, 1 escalation(s). Examples: \"@aftab.hashambhai@zycus.com Need meeting on calendar for this\"; \"@aftab.hashambhai@zycus.com  PH name need to be changed\"; \"@aftab.hashambhai@zycus.com  Need to have these on calendar, as a outcome of wor\"",
+    "Disagreement: computed overall=Red vs source Schedule Health=Green. Source also reports At Risk=High."
+  ],
+  "reasoning": "The project's overall health status is Red, but there's a significant disagreement between the computed status and the source-reported status, which is Green. This discrepancy is mainly due to the source reporting the project as At Risk with a High status, which contradicts the computed overall Red status. Despite this, the project is facing several challenges, including a Red schedule due to 1 task with a 15-day slip (Production & Cutover), and a Red stakeholder sentiment with 4 stale asks and 1 escalation. Additionally, there are 68 blocked tasks (13.8%) out of 493, which is an Amber status.",
+  "data_gaps": [
+    "No cost/budget columns present in source file",
+    "Status Comment column is entirely empty — sentiment analysis will rely on Comments sheet only",
+    "493 cells contain '#UNPARSEABLE' — logged and excluded from calculations"
+  ]
+}

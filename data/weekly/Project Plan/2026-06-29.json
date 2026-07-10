@@ -1,0 +1,30 @@
+{
+  "project_name": "Project Plan",
+  "run_date": "2026-06-29",
+  "overall_rag": "Amber",
+  "source_reported_rag": "Red",
+  "disagreement_flag": true,
+  "sub_scores": {
+    "schedule": "Green",
+    "milestone_health": "Amber",
+    "blockers": "Green",
+    "budget_burn": "Not Assessed",
+    "stakeholder_sentiment": "Not Assessed"
+  },
+  "evidence": [
+    "Schedule GREEN: no active tasks slipping",
+    "Milestone AMBER: 44% complete vs 57% expected — 13.5% behind pace",
+    "Blockers GREEN: 0/383 tasks blocked (0.0%)",
+    "Budget: Not Assessed — no cost/budget columns in source file",
+    "Disagreement: computed overall=Amber vs source Schedule Health=Red. Source also reports At Risk=High."
+  ],
+  "reasoning": "There is a significant disagreement between the computed overall project health status and the source-reported status, with the source reporting the project as being at high risk, while the computed status indicates amber. This discrepancy is due to a difference in schedule health assessment, with the source reporting red and the computed status green, citing evidence from 44% complete milestones and 13.5% behind pace. However, other dimensions such as blockers and budget burn are healthy, with no active tasks blocked and budget assessment not possible due to data gaps.",
+  "data_gaps": [
+    "No cost/budget columns present in source file",
+    "Status Comment column is entirely empty — sentiment analysis will rely on Comments sheet only",
+    "No task-level RAG column in source file — only Schedule Health available for status comparison",
+    "1532 cells contain '#UNPARSEABLE' — logged and excluded from calculations",
+    "Comments sheet is empty — no sentiment data from comments",
+    "Sentiment: no comments or status comments available — dimension not assessable"
+  ]
+}

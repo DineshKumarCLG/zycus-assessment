@@ -1,0 +1,28 @@
+{
+  "project_name": "Outokumpu- S2P Project",
+  "run_date": "2026-06-15",
+  "overall_rag": "Red",
+  "source_reported_rag": "Green",
+  "disagreement_flag": true,
+  "sub_scores": {
+    "schedule": "Red",
+    "milestone_health": "Green",
+    "blockers": "Amber",
+    "budget_burn": "Not Assessed",
+    "stakeholder_sentiment": "Red"
+  },
+  "evidence": [
+    "Schedule RED: 1 task(s) with >10-day slip: Production & Cutover (+15d)",
+    "Milestone GREEN: 71% complete vs 52% expected (192/367 days elapsed) — on/ahead of pace",
+    "Blockers AMBER: 68/493 tasks blocked (13.8%)",
+    "Budget: Not Assessed — no cost/budget columns in source file",
+    "Sentiment RED: 0 stale asks, 1 escalation(s). Examples: \"Due to parallel phase 1 activities onsite workshop dates are impacted\"",
+    "Disagreement: computed overall=Red vs source Schedule Health=Green. Source also reports At Risk=High."
+  ],
+  "reasoning": "There is a significant disagreement between the computed overall project health and the source-reported status, with the engine indicating a Red status but the source reporting a Green status due to a healthy schedule. However, despite the source's optimistic view, the computed overall status is Red, driven by Red stakeholder sentiment (e.g., \"Due to parallel phase 1 activities onsite workshop dates are impacted\") and an Amber blocker status, with 68 out of 493 tasks blocked (13.8%). The project's budget burn is Not Assessed due to missing cost/budget columns in the source file.",
+  "data_gaps": [
+    "No cost/budget columns present in source file",
+    "Status Comment column is entirely empty — sentiment analysis will rely on Comments sheet only",
+    "493 cells contain '#UNPARSEABLE' — logged and excluded from calculations"
+  ]
+}

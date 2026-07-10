@@ -1,0 +1,29 @@
+{
+  "project_name": "Outokumpu- S2P Project",
+  "run_date": "2026-07-08",
+  "overall_rag": "Red",
+  "source_reported_rag": "Green",
+  "disagreement_flag": true,
+  "sub_scores": {
+    "schedule": "Red",
+    "milestone_health": "Green",
+    "blockers": "Amber",
+    "budget_burn": "Not Assessed",
+    "stakeholder_sentiment": "Red"
+  },
+  "evidence": [
+    "Schedule RED: 1 task(s) with >10-day slip: Production & Cutover (+15d)",
+    "Milestone GREEN: 71% complete vs 57% expected (209/367 days elapsed) — on/ahead of pace",
+    "Blockers AMBER: 68/493 tasks blocked (13.8%)",
+    "Budget: Not Assessed — no cost/budget columns in source file",
+    "Sentiment RED: 4 stale asks, 1 escalation(s). Examples: \"@aftab.hashambhai@zycus.com Need meeting on calendar for this\"; \"@aftab.hashambhai@zycus.com  PH name need to be changed\"; \"@aftab.hashambhai@zycus.com  Need to have these on calendar, as a outcome of wor\"",
+    "Disagreement: computed overall=Red vs source Schedule Health=Green. Source also reports At Risk=High."
+  ],
+  "reasoning": "LLM reasoning unavailable — NIM call failed: Request timed out.. Signal data above is the authoritative output.",
+  "data_gaps": [
+    "No cost/budget columns present in source file",
+    "Status Comment column is entirely empty — sentiment analysis will rely on Comments sheet only",
+    "493 cells contain '#UNPARSEABLE' — logged and excluded from calculations",
+    "Reasoning Agent: NIM call failed (Request timed out.)"
+  ]
+}

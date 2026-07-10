@@ -1,0 +1,28 @@
+{
+  "project_name": "Outokumpu- S2P Project",
+  "run_date": "2026-07-06",
+  "overall_rag": "Red",
+  "source_reported_rag": "Green",
+  "disagreement_flag": true,
+  "sub_scores": {
+    "schedule": "Red",
+    "milestone_health": "Green",
+    "blockers": "Amber",
+    "budget_burn": "Not Assessed",
+    "stakeholder_sentiment": "Red"
+  },
+  "evidence": [
+    "Schedule RED: 1 task(s) with >10-day slip: Production & Cutover (+15d)",
+    "Milestone GREEN: 71% complete vs 58% expected (213/367 days elapsed) — on/ahead of pace",
+    "Blockers AMBER: 68/493 tasks blocked (13.8%)",
+    "Budget: Not Assessed — no cost/budget columns in source file",
+    "Sentiment RED: 7 stale asks, 1 escalation(s). Examples: \"OTK to provde Sample for processing further with Design conclusion however the c\"; \"JDE mapping is pending only\"; \"JDE field mapping remain to complete for PO outbound & GR Inbound @vinayaka.sora\"",
+    "Disagreement: computed overall=Red vs source Schedule Health=Green. Source also reports At Risk=High."
+  ],
+  "reasoning": "There is a significant disagreement between the computed overall project health status and the source-reported status, with the computed status indicating \"Red\" and the source reporting \"Green\" due to a healthy schedule. However, other factors suggest otherwise: the schedule is actually slipping with 1 task having a >10-day delay (\"Production & Cutover (+15d)\"), and stakeholder sentiment is \"Red\" due to 7 stale asks and 1 escalation, with specific examples of concerns (\"OTK to provde Sample for processing further with Design conclusion however the c\"; \"JDE mapping is pending only\"). Additionally, there are blockers affecting 13.8% of tasks.",
+  "data_gaps": [
+    "No cost/budget columns present in source file",
+    "Status Comment column is entirely empty — sentiment analysis will rely on Comments sheet only",
+    "493 cells contain '#UNPARSEABLE' — logged and excluded from calculations"
+  ]
+}

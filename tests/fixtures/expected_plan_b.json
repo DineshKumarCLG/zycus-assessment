@@ -1,0 +1,15 @@
+{
+  "project_name": "Project Plan",
+  "sub_scores": {
+    "schedule": "Green",
+    "milestone_health": "Amber",
+    "blockers": "Green",
+    "budget_burn": "Not Assessed",
+    "stakeholder_sentiment": "Not Assessed"
+  },
+  "overall_rag": "Amber",
+  "source_reported_rag": "Red",
+  "disagreement_flag": true,
+  "evidence_count": 5,
+  "data_gaps_count": 6
+}
