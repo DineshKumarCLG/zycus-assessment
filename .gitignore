@@ -33,12 +33,3 @@ yarn-error.log*
 .Trashes
 ehthumbs.db
 Thumbs.db
-
-# Agent specific instruction files (hiding developer system configurations from recruiters)
-AGENTS.md
-CLAUDE.md
-BUILD_HARNESS_AND_LOOP_ENGINEERING.md
-CHECKLIST.md
-Checklist.md
-.ui-craft/
-.gemini/
