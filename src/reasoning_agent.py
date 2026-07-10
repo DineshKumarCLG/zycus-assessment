@@ -18,8 +18,6 @@ from src.models import SignalResult
 
 logger = logging.getLogger(__name__)
 
-# NIM endpoint configuration — from NIM_REFERENCE.md
-# NIM endpoint configuration — from NIM_REFERENCE.md
 NIM_BASE_URL = "https://integrate.api.nvidia.com/v1"
 NIM_MODELS = [
     "meta/llama-3.1-8b-instruct",

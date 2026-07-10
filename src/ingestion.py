@@ -453,6 +453,12 @@ def load_project(filepath: Path) -> ProjectData:
     if project_name is None:
         project_name = filepath.stem
 
+    # Map generic or sheet names to clean business client names: UniSan and Titan
+    if project_name == "Project Plan" or "UniSan" in str(project_name):
+        project_name = "UniSan"
+    elif project_name == "Outokumpu- S2P Project" or "Titan" in str(project_name) or "Outokumpu" in str(project_name):
+        project_name = "Titan"
+
     return ProjectData(
         project_name=project_name,
         file_path=str(filepath),

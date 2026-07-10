@@ -215,6 +215,33 @@ export default function SmoothDashboard({
                     </div>
                   </div>
 
+                  {project.phase_performances && project.phase_performances.length > 0 && (
+                    <div className="space-y-3">
+                      <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Phase Performance</span>
+                      <div className="space-y-2 text-xs">
+                        {project.phase_performances.map((phase: any, pIdx: number) => (
+                          <div key={pIdx} className="rounded-2xl bg-zinc-50 border border-zinc-200/60 p-3 shadow-sm space-y-1">
+                            <div className="flex justify-between items-center">
+                              <span className="font-semibold text-zinc-800">{phase.phase_name}</span>
+                              <span className={`px-2 py-0.5 rounded-full font-bold text-[10px] ${
+                                phase.computed_rag === 'Red' ? 'bg-rose-50 text-rose-600 border border-rose-100' :
+                                phase.computed_rag === 'Amber' ? 'bg-amber-50 text-amber-600 border border-amber-100' :
+                                'bg-emerald-50 text-emerald-600 border border-emerald-100'
+                              }`}>
+                                {phase.computed_rag}
+                              </span>
+                            </div>
+                            <div className="flex justify-between text-zinc-400 font-medium">
+                              <span>Completion: {(phase.percent_complete * 100).toFixed(0)}%</span>
+                              {phase.source_reported_rag && <span>Reported: {phase.source_reported_rag}</span>}
+                            </div>
+                            <p className="text-[11px] text-zinc-500 leading-normal font-medium">{phase.root_cause}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   <div className="pt-4 border-t border-zinc-100 space-y-2">
                     <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">AI Synthesis Reasoning</span>
                     <div className="bg-zinc-50/50 border border-zinc-200/60 p-4 rounded-2xl shadow-inner">

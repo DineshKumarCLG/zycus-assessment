@@ -1,0 +1,46 @@
+{
+  "project_name": "UniSan",
+  "run_date": "2026-07-10",
+  "overall_rag": "Amber",
+  "source_reported_rag": "Red",
+  "disagreement_flag": true,
+  "sub_scores": {
+    "schedule": "Green",
+    "milestone_health": "Amber",
+    "blockers": "Green",
+    "budget_burn": "Not Assessed",
+    "stakeholder_sentiment": "Not Assessed"
+  },
+  "evidence": [
+    "Schedule GREEN: no active tasks slipping",
+    "Milestone AMBER: 44% complete vs 59% expected — 14.8% behind pace",
+    "Blockers GREEN: 0/383 tasks blocked (0.0%)",
+    "Budget: Not Assessed — no cost/budget columns in source file",
+    "Disagreement: computed overall=Amber vs source Schedule Health=Red. Source also reports At Risk=High."
+  ],
+  "reasoning": "The project's overall health status is disputed, with the computed RAG color being Amber, but the source-reported status being Red, citing the Schedule Health as Red and At Risk as High. This discrepancy is reflected in the evidence, where the computed overall status is Amber, but the source reports Schedule Health as Red. The project's schedule is actually on track, with no active tasks slipping (evidence: \"Schedule GREEN: no active tasks slipping\"), but milestones are behind pace, with 44% completion versus the expected 59% (evidence: \"Milestone AMBER: 44% complete vs 59% expected — 14.8% behind pace\").",
+  "data_gaps": [
+    "No cost/budget columns present in source file",
+    "Status Comment column is entirely empty — sentiment analysis will rely on Comments sheet only",
+    "No task-level RAG column in source file — only Schedule Health available for status comparison",
+    "1532 cells contain '#UNPARSEABLE' — logged and excluded from calculations",
+    "Comments sheet is empty — no sentiment data from comments",
+    "Sentiment: no comments or status comments available — dimension not assessable"
+  ],
+  "phase_performances": [
+    {
+      "phase_name": "Phase 1 - S2C",
+      "percent_complete": 0.9838095238095238,
+      "computed_rag": "Green",
+      "source_reported_rag": "Green",
+      "root_cause": "Phase is 98% complete and on track with no active blockers or slips."
+    },
+    {
+      "phase_name": "Phase 2 - P2P",
+      "percent_complete": 0.09365957446808511,
+      "computed_rag": "Green",
+      "source_reported_rag": "Red",
+      "root_cause": "Phase is 9% complete and on track with no active blockers or slips."
+    }
+  ]
+}

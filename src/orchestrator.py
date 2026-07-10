@@ -71,6 +71,7 @@ def run_weekly(
         evidence=signals.evidence,
         reasoning=reasoning,
         data_gaps=signals.data_gaps,
+        phase_performances=signals.phase_performances,
     )
 
     # Step 5: Write to JSON

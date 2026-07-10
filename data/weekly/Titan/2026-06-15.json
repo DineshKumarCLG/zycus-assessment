@@ -1,0 +1,44 @@
+{
+  "project_name": "Titan",
+  "run_date": "2026-06-15",
+  "overall_rag": "Red",
+  "source_reported_rag": "Green",
+  "disagreement_flag": true,
+  "sub_scores": {
+    "schedule": "Red",
+    "milestone_health": "Green",
+    "blockers": "Amber",
+    "budget_burn": "Not Assessed",
+    "stakeholder_sentiment": "Red"
+  },
+  "evidence": [
+    "Schedule RED: 1 task(s) with >10-day slip: Production & Cutover (+15d)",
+    "Milestone GREEN: 71% complete vs 52% expected (192/367 days elapsed) — on/ahead of pace",
+    "Blockers AMBER: 68/493 tasks blocked (13.8%)",
+    "Budget: Not Assessed — no cost/budget columns in source file",
+    "Sentiment RED: 0 stale asks, 1 escalation(s). Examples: \"Due to parallel phase 1 activities onsite workshop dates are impacted\"",
+    "Disagreement: computed overall=Red vs source Schedule Health=Green. Source also reports At Risk=High."
+  ],
+  "reasoning": "The project's overall health status is disputed, with the computed RAG indicating \"Red\" but the source-reported status being \"Green\" (evidence: \"Disagreement: computed overall=Red vs source Schedule Health=Green. Source also reports At Risk=High.\"). The schedule is indeed experiencing issues, with 1 task having a 15-day slip (evidence: \"Schedule RED: 1 task(s) with >10-day slip: Production & Cutover (+15d)\"). Additionally, stakeholder sentiment is also \"Red\" due to escalations and impacted workshop dates (evidence: \"Sentiment RED: 0 stale asks, 1 escalation(s). Examples: \\\"Due to parallel phase 1 activities onsite workshop dates are impacted\\\"\").",
+  "data_gaps": [
+    "No cost/budget columns present in source file",
+    "Status Comment column is entirely empty — sentiment analysis will rely on Comments sheet only",
+    "493 cells contain '#UNPARSEABLE' — logged and excluded from calculations"
+  ],
+  "phase_performances": [
+    {
+      "phase_name": "Phase 1 - S2C",
+      "percent_complete": 0.92,
+      "computed_rag": "Red",
+      "source_reported_rag": "Amber",
+      "root_cause": "Phase is 92% complete. Red status driven by: tasks with >10-day slips, high blocker count (25.1%)."
+    },
+    {
+      "phase_name": "Phase 2 - P2P",
+      "percent_complete": 0.21,
+      "computed_rag": "Green",
+      "source_reported_rag": "Red",
+      "root_cause": "Phase is 21% complete and on track with no active blockers or slips."
+    }
+  ]
+}

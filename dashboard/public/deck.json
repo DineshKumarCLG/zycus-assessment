@@ -24,9 +24,9 @@
     "title": "",
     "content": [
       "Cross-Project Health & Schedule Trends",
-      "Outokumpu- S2P Project: RAG sequence over 6 weeks exhibits stagnation: Red \u2192 Red \u2192 Red \u2192 Red \u2192 Red \u2192 Red",
-      "- Schedule drift remains unmitigated on Outokumpu- S2P Project (schedule subscore: Red)",
-      "Project Plan: RAG sequence over 6 weeks exhibits stagnation: Amber \u2192 Amber \u2192 Amber \u2192 Red \u2192 Amber \u2192 Amber"
+      "Titan: RAG sequence over 5 weeks exhibits stagnation: Red \u2192 Red \u2192 Red \u2192 Red \u2192 Red",
+      "- Schedule drift remains unmitigated on Titan (schedule subscore: Red)",
+      "UniSan: RAG sequence over 5 weeks exhibits stagnation: Amber \u2192 Amber \u2192 Amber \u2192 Red \u2192 Amber"
     ]
   },
   {
@@ -44,9 +44,9 @@
     "title": "",
     "content": [
       "Status Disagreement & Reporting Audits",
-      "Systemic optimism bias: Disagreement flags active in 11/12 of weekly reports.",
-      "- Outokumpu- S2P Project: PM-reported 'Green' status directly contradicts mathematically computed 'Red' status.",
-      "- Project Plan: PM-reported 'Red' status directly contradicts mathematically computed 'Amber' status."
+      "Systemic optimism bias: Disagreement flags active in 9/10 of weekly reports.",
+      "- Titan: PM-reported 'Green' status directly contradicts mathematically computed 'Red' status.",
+      "- UniSan: PM-reported 'Red' status directly contradicts mathematically computed 'Amber' status."
     ]
   },
   {
@@ -64,7 +64,7 @@
     "title": "",
     "content": [
       "Executive Insights & Recommendations",
-      "1. Launch immediate executive recovery audit on Outokumpu - S2P Project to remediate critical schedule slips.",
+      "1. Launch immediate executive recovery audit on Titan to remediate critical schedule slips.",
       "2. Establish standard project management tracking templates to reconcile reported statuses with objective mathematical delay metrics.",
       "3. Mandate inclusion of standard cost/budget metrics in weekly files to enable financial performance scoring.",
       "4. Enforce mandatory completion of qualitative task status comments to capture emerging operational risks early."

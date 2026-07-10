@@ -1,5 +1,5 @@
 {
-  "project_name": "Outokumpu- S2P Project",
+  "project_name": "Titan",
   "run_date": "2026-07-06",
   "overall_rag": "Red",
   "source_reported_rag": "Green",
@@ -19,10 +19,26 @@
     "Sentiment RED: 7 stale asks, 1 escalation(s). Examples: \"OTK to provde Sample for processing further with Design conclusion however the c\"; \"JDE mapping is pending only\"; \"JDE field mapping remain to complete for PO outbound & GR Inbound @vinayaka.sora\"",
     "Disagreement: computed overall=Red vs source Schedule Health=Green. Source also reports At Risk=High."
   ],
-  "reasoning": "There is a significant disagreement between the computed overall project health status and the source-reported status, with the computed status indicating \"Red\" and the source reporting \"Green\" due to a healthy schedule. However, other factors suggest otherwise: the schedule is actually slipping with 1 task having a >10-day delay (\"Production & Cutover (+15d)\"), and stakeholder sentiment is \"Red\" due to 7 stale asks and 1 escalation, with specific examples of concerns (\"OTK to provde Sample for processing further with Design conclusion however the c\"; \"JDE mapping is pending only\"). Additionally, there are blockers affecting 13.8% of tasks.",
+  "reasoning": "There is a disagreement between the computed overall project health status (Red) and the source-reported status (Green), with the source also reporting the project as \"At Risk\" with a high level of risk. The computed Red status is driven by a Red schedule (1 task with a >10-day slip: Production & Cutover), an Amber blocker count (68/493 tasks blocked), and a Red stakeholder sentiment (7 stale asks, 1 escalation). On the other hand, the source reports a Green milestone health status (71% complete vs 58% expected).",
   "data_gaps": [
     "No cost/budget columns present in source file",
     "Status Comment column is entirely empty — sentiment analysis will rely on Comments sheet only",
     "493 cells contain '#UNPARSEABLE' — logged and excluded from calculations"
+  ],
+  "phase_performances": [
+    {
+      "phase_name": "Phase 1 - S2C",
+      "percent_complete": 0.92,
+      "computed_rag": "Red",
+      "source_reported_rag": "Amber",
+      "root_cause": "Phase is 92% complete. Red status driven by: tasks with >10-day slips, high blocker count (25.1%)."
+    },
+    {
+      "phase_name": "Phase 2 - P2P",
+      "percent_complete": 0.21,
+      "computed_rag": "Green",
+      "source_reported_rag": "Red",
+      "root_cause": "Phase is 21% complete and on track with no active blockers or slips."
+    }
   ]
 }

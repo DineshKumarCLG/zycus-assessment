@@ -1,6 +1,14 @@
 import fs from 'fs';
 import path from 'path';
 
+export interface PhasePerformance {
+  phase_name: string;
+  percent_complete: number;
+  computed_rag: string;
+  source_reported_rag?: string;
+  root_cause: string;
+}
+
 export interface ProjectWeeklyData {
   project_name: string;
   run_date: string;
@@ -17,6 +25,7 @@ export interface ProjectWeeklyData {
   evidence: string[];
   reasoning: string;
   data_gaps: string[];
+  phase_performances?: PhasePerformance[];
 }
 
 export interface SlideData {

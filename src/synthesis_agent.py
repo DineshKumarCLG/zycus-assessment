@@ -287,7 +287,7 @@ def _fallback_synthesis(
 
     # Slide 7: Recommendations
     rec_bullets = [
-        "1. Launch immediate executive recovery audit on Outokumpu - S2P Project to remediate critical schedule slips.",
+        "1. Launch immediate executive recovery audit on Titan to remediate critical schedule slips.",
         "2. Establish standard project management tracking templates to reconcile reported statuses with objective mathematical delay metrics.",
         "3. Mandate inclusion of standard cost/budget metrics in weekly files to enable financial performance scoring.",
         "4. Enforce mandatory completion of qualitative task status comments to capture emerging operational risks early."

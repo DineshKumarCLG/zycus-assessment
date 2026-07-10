@@ -125,6 +125,16 @@ class ProjectData(BaseModel):
 # ---------------------------------------------------------------------------
 
 
+class PhasePerformance(BaseModel):
+    """Calculated and reported RAG status + completion for a specific project phase."""
+
+    phase_name: str
+    percent_complete: float
+    computed_rag: RAGStatus
+    source_reported_rag: Optional[str] = None
+    root_cause: str
+
+
 class SubScores(BaseModel):
     """Five independent RAG dimensions per Methodology.md.
 
@@ -145,7 +155,8 @@ class SignalResult(BaseModel):
 
     Carries the sub-scores, overall RAG (worst-of-dimensions per Methodology),
     the source-reported status for disagreement detection, the specific
-    evidence that drove each score, and any data gaps encountered.
+    evidence that drove each score, any data gaps encountered, and the
+    granular breakdown per project phase.
     """
 
     sub_scores: SubScores = Field(default_factory=SubScores)
@@ -158,6 +169,7 @@ class SignalResult(BaseModel):
 
     evidence: list[str] = Field(default_factory=list)
     data_gaps: list[str] = Field(default_factory=list)
+    phase_performances: list[PhasePerformance] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
@@ -181,6 +193,7 @@ class WeeklyReport(BaseModel):
     evidence: list[str] = Field(default_factory=list)
     reasoning: str = ""                                 # LLM-generated paragraph from Reasoning Agent
     data_gaps: list[str] = Field(default_factory=list)
+    phase_performances: list[PhasePerformance] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------

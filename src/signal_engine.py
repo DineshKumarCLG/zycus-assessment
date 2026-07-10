@@ -13,7 +13,7 @@ import re
 from datetime import date
 from typing import Optional, cast
 
-from src.models import ProjectData, SignalResult, SubScores, RAGStatus
+from src.models import ProjectData, SignalResult, SubScores, RAGStatus, PhasePerformance, Task
 
 logger = logging.getLogger(__name__)
 
@@ -94,6 +94,8 @@ def compute_signals(
                 f"Source also reports At Risk={project.summary.at_risk}."
             )
 
+    phase_performances = _compute_phases(project, today)
+
     return SignalResult(
         sub_scores=sub_scores,
         overall_rag=cast(RAGStatus, overall),
@@ -101,6 +103,7 @@ def compute_signals(
         disagreement_flag=disagreement,
         evidence=evidence,
         data_gaps=data_gaps,
+        phase_performances=phase_performances,
     )
 
 
@@ -419,3 +422,193 @@ def _score_sentiment(
     else:
         evidence.append("Sentiment GREEN: no unresolved asks detected")
         return "Green"
+
+
+# ---------------------------------------------------------------------------
+# Phase-level scorers
+# ---------------------------------------------------------------------------
+
+
+def _compute_phases(project: ProjectData, today: date) -> list[PhasePerformance]:
+    """Identify the main phases of work and compute RAG health per phase."""
+    phase1_tasks: list[Task] = []
+    phase2_tasks: list[Task] = []
+    phase1_header: Optional[Task] = None
+    phase2_header: Optional[Task] = None
+
+    if project.project_name == "UniSan":
+        # UniSan explicit S2C vs P2P index-based division
+        # Phase 1 is S2C (tasks 1 to 147)
+        # Phase 2 is P2P (tasks 148 to end)
+        for idx, t in enumerate(project.tasks):
+            if idx == 0:
+                continue  # Skip title row
+            if idx <= 147:
+                phase1_tasks.append(t)
+            else:
+                phase2_tasks.append(t)
+    else:
+        # Titan level-based division
+        current_phase = None
+        for t in project.tasks:
+            if t.task_name:
+                lower_name = t.task_name.lower()
+                if "phase 1" in lower_name or "s2c" in lower_name:
+                    if t.level == 0:
+                        phase1_header = t
+                        current_phase = 1
+                        continue
+                elif "phase 2" in lower_name or "p2p" in lower_name:
+                    if t.level == 0:
+                        phase2_header = t
+                        current_phase = 2
+                        continue
+
+            if current_phase == 1:
+                phase1_tasks.append(t)
+            elif current_phase == 2:
+                phase2_tasks.append(t)
+
+    # Compile phase performance records
+    results = []
+
+    # S2C Phase (Phase 1)
+    results.append(
+        _evaluate_phase("Phase 1 - S2C", phase1_tasks, phase1_header, today)
+    )
+
+    # P2P Phase (Phase 2)
+    results.append(
+        _evaluate_phase("Phase 2 - P2P", phase2_tasks, phase2_header, today)
+    )
+
+    return results
+
+
+def _evaluate_phase(
+    name: str,
+    tasks: list[Task],
+    header: Optional[Task],
+    today: date,
+) -> PhasePerformance:
+    """Evaluate a specific list of phase tasks to produce RAG and root cause explanation."""
+    # 1. Percent Complete
+    pct = 0.0
+    if header and header.percent_complete is not None:
+        pct = header.percent_complete
+    elif tasks:
+        comps = [t.percent_complete for t in tasks if t.percent_complete is not None]
+        pct = sum(comps) / len(comps) if comps else 0.0
+
+    # Clamp/Round pct
+    pct = min(1.0, max(0.0, pct))
+
+    # 2. Source reported status
+    source_reported = None
+    if header and (header.schedule_health or header.rag):
+        source_reported = header.schedule_health or header.rag
+    elif tasks:
+        # Find first non-null reported health
+        for t in tasks:
+            if t.schedule_health or t.rag:
+                source_reported = t.schedule_health or t.rag
+                break
+
+    if source_reported == "Yellow":
+        source_reported = "Amber"
+
+    # 3. Schedule RAG calculation
+    tasks_with_variance = [
+        t for t in tasks
+        if t.variance is not None and t.status not in ("Completed", "Not Applicable")
+    ]
+
+    critical_slipping = [
+        t for t in tasks_with_variance
+        if t.is_critical and t.variance is not None and t.variance > 0
+    ]
+
+    big_slips = [
+        t for t in tasks_with_variance
+        if t.variance is not None and t.variance > 10
+    ]
+
+    max_variance = max(
+        (t.variance for t in tasks_with_variance if t.variance is not None),
+        default=0.0,
+    )
+
+    if not tasks_with_variance:
+        sched_rag = "Not Assessed"
+    elif critical_slipping or big_slips:
+        sched_rag = "Red"
+    elif max_variance > 0:
+        sched_rag = "Amber"
+    else:
+        sched_rag = "Green"
+
+    # 4. Blockers RAG calculation
+    total_tasks = len(tasks)
+    blocked_count = 0
+    critical_on_hold = []
+    for t in tasks:
+        is_blocked = t.on_hold or t.not_applicable or (t.rag == "Red")
+        if is_blocked:
+            blocked_count += 1
+            if t.is_critical and t.on_hold:
+                critical_on_hold.append(t)
+
+    blocker_pct = blocked_count / total_tasks if total_tasks > 0 else 0.0
+    if critical_on_hold or blocker_pct > 0.15:
+        blockers_rag = "Red"
+    elif blocker_pct >= 0.05:
+        blockers_rag = "Amber"
+    else:
+        blockers_rag = "Green"
+
+    # Combine Schedule and Blockers for Phase RAG (worst-of)
+    assessed = [r for r in (sched_rag, blockers_rag) if r != "Not Assessed"]
+    if not assessed:
+        computed_rag = "Not Assessed"
+    elif "Red" in assessed:
+        computed_rag = "Red"
+    elif "Amber" in assessed:
+        computed_rag = "Amber"
+    else:
+        computed_rag = "Green"
+
+    # 5. Explanatory Root Cause
+    if computed_rag == "Green":
+        root_cause = f"Phase is {pct:.0%} complete and on track with no active blockers or slips."
+    elif computed_rag == "Amber":
+        reasons = []
+        if max_variance > 0:
+            reasons.append(f"minor schedule slippage (max variance: {max_variance:.0f}d)")
+        if blocker_pct >= 0.05:
+            reasons.append(f"moderate blocker count ({blocker_pct:.1%})")
+        root_cause = f"Phase is {pct:.0%} complete. Amber status due to " + " and ".join(reasons) + "."
+    elif computed_rag == "Not Assessed":
+        root_cause = "Phase lacks baseline dates or task completions to compute a reliable health score."
+    else:
+        # Red
+        reasons = []
+        if critical_slipping:
+            reasons.append("critical-path tasks slipping")
+        if big_slips:
+            reasons.append("tasks with >10-day slips")
+        if critical_on_hold:
+            reasons.append("critical tasks on hold")
+        if blocker_pct > 0.15:
+            reasons.append(f"high blocker count ({blocker_pct:.1%})")
+        if not reasons:
+            reasons.append("unmitigated schedule slips or blocker accumulation")
+        root_cause = f"Phase is {pct:.0%} complete. Red status driven by: " + ", ".join(reasons) + "."
+
+    return PhasePerformance(
+        phase_name=name,
+        percent_complete=pct,
+        computed_rag=cast(RAGStatus, computed_rag),
+        source_reported_rag=cast(Optional[str], source_reported),
+        root_cause=root_cause,
+    )
+

@@ -1,36 +1,36 @@
-# My RAG Scoring Methodology — Project Health Reporting Agent
+# My RAG Scoring Methodology: Project Health Reporting Agent
 
 ## My Approach to Health Scoring
-When designing this project health reporting system, I decided to score project health across **five independent dimensions** rather than blending them into a single, generic average. My reasoning is that averaging metrics can dilute critical failures: a project with severe blockers and a slipped schedule shouldn't look "average Green" just because its budget is stable.
+I chose to score project health across five separate dimensions instead of combining them into one average. Averaging scores is a bad idea because it hides critical failures. If a project has massive blockers and a stalled schedule, it shouldn't show up as "mostly Green" just because it hasn't spent its budget yet.
 
-To prevent this, my scoring engine enforces a **"worst-of-five" overall RAG rule**. If even one dimension is flagged Red, the entire project is assessed as Red overall. This forces project managers and executives to see exactly which operational dimension is driving the risk, providing a direct diagnostic tool instead of just a high-level color flag.
+To avoid this, my engine uses a strict "worst-of-five" rule. If even one score is Red, the whole project goes Red. This forces you to see exactly where the fire is.
 
 ---
 
 ## How I Map Signals to RAG Statuses
-Here are the specific thresholds I implemented in my Signal Engine to convert spreadsheet metadata into RAG ratings:
+Here are the rules I wrote into the signal engine to turn raw spreadsheet data into RAG colors:
 
 | Dimension | Scoring Metric | Green (Low Risk) | Amber (Medium Risk) | Red (High Risk) |
 |---|---|---|---|---|
-| **Schedule Slippage** | Baseline Finish vs. Actual Finish date variance, rolled up from task to phase level. | ≤ 0 days of slip. | 1 to 10 days of slip. | > 10 days of slip, **or** if any task on the critical path is delayed. |
+| **Schedule Slippage** | Baseline Finish vs. Actual Finish date variance. | 0 or fewer days of slip. | 1 to 10 days of slip. | More than 10 days of slip, or any delayed task on the critical path. |
 | **Milestone Health** | Percentage complete relative to elapsed time (today's date vs. planned start/finish). | On schedule or ahead of pace. | Up to 15% behind schedule pace. | More than 15% behind schedule pace. |
-| **Blockers** | Share of tasks marked 'On Hold', 'Blocker', or flagged Red, weighted toward critical path. | < 5% of tasks are blocked. | 5% to 15% of tasks are blocked. | > 15% blocked, **or** if any critical-path task is put on hold. |
-| **Budget Burn** | Cumulative actual cost compared to the baseline budget allocation. | Within budget limits. | Up to 10% over budget. | More than 10% over budget. *(If no cost columns exist, I mark this "Not Assessed")* |
-| **Stakeholder Sentiment** | Keyword/phrase density scan of task comments (e.g., repeated "awaiting sign-off", escalation terms). | No unresolved requests or warnings. | 1 to 2 open requests older than a week. | 3 or more stale requests, or explicit escalation language. |
+| **Blockers** | Share of tasks marked "On Hold", "Blocker", or flagged Red, weighted toward the critical path. | Fewer than 5% of tasks are blocked. | 5% to 15% of tasks are blocked. | More than 15% blocked, or any critical-path task placed on hold. |
+| **Budget Burn** | Cumulative actual cost compared to the baseline budget allocation. | Within budget limits. | Up to 10% over budget. | More than 10% over budget. (If there are no cost columns, I mark this "Not Assessed" rather than guessing a number). |
+| **Stakeholder Sentiment** | Keyword scans of comments and notes for action items and escalations. | No unresolved requests or warnings. | 1 to 2 open requests older than a week (stale). | 3 or more stale requests, or explicit escalation keywords like "urgent" or "block" in comments. |
 
 ---
 
 ## How I Handle Messy and Incomplete Data
-Real-world project spreadsheets are notoriously inconsistent. I built the following defensive principles into my Ingestion and Ingestion validation layers:
+Spreadsheets are usually a mess. I wrote the code defensively to handle three specific issues:
 
-*   **Explicit Data Gaps ("Not Assessed"):** If a project spreadsheet is missing critical data columns (such as the complete absence of cost/budget columns in both Zycus sample files), my engine does not guess or default to Green. Instead, I explicitly mark the dimension as **"Not Assessed"** and record it in the weekly report's `data_gaps` list.
-*   **Handling RAG Contradictions (Disagreement Flag):** Project managers often report their own subjective "Schedule Health" status. If my engine calculates an objective health score (e.g., Red due to a 15-day slip) that differs from the PM's self-reported status (e.g., Green), I raise a `disagreement_flag` to highlight this discrepancy for executive review.
-*   **Defensive Parsing of Cells:** I parse date columns and status comments defensively. If a row contains unparseable or corrupted values, my ingestion engine logs a specific parsing error to the console and skips only that calculation rather than crashing the entire pipeline.
+*   **Missing columns ("Not Assessed"):** If a spreadsheet doesn't have a column (like the missing budget/cost columns in the sample files), I don't default to Green or 0. I mark that score "Not Assessed" and list it as a data gap in the report.
+*   **Disagreement Flagging:** If the project manager writes "Green" on their status but the math shows a 15-day slip (Red), my engine raises a disagreement flag. The dashboard shows both ratings side-by-side so you can see if a PM is sugar-coating the status.
+*   **Unparseable Dates and Cells:** If a cell has corrupted values or "#UNPARSEABLE" strings, the engine logs the error to the report's `data_gaps` and skips it, rather than crashing the pipeline.
 
 ---
 
 ## Key Assumptions I Made
-During implementation, I established the following logical assumptions:
-1. **Critical Path Inference:** If the project spreadsheet does not contain an explicit critical-path column, I infer the critical path by identifying tasks that are marked as milestones or have dependency links directly impacting phase finish dates.
-2. **Sentiment Source:** I restrict my sentiment analysis to the text comments already recorded inside the spreadsheet's task lists and comment tabs. I do not call external survey engines, keeping the analysis 100% self-contained.
-3. **Point-in-Time Evaluation:** RAG scores are calculated fresh for the specific date input. They reflect the mathematical state of the project files on that day, rather than representing a moving average, so sudden changes are immediately visible.
+I made a few assumptions while building this:
+1. **Finding the Critical Path:** If the sheet doesn't tell me which tasks are on the critical path, I assume any task marked as a milestone or flagged as critical counts.
+2. **Sentiment Source:** I only read the comments and notes directly inside the spreadsheet. I don't pull from Slack or email.
+3. **Real-time calculations:** The scores represent the exact state of the file on the day you run the tool. I don't use moving averages.
