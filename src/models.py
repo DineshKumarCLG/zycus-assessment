@@ -34,7 +34,7 @@ class Task(BaseModel):
     """A single task row from the main project sheet.
 
     Field names map to SCHEMA_REFERENCE.md columns. Fields that exist in one
-    file but not the other (e.g. 'rag' only in S2P_Project) are Optional.
+    schemas but absent in others are Optional.
     """
 
     task_name: Optional[str] = None                     # "Task Name"
@@ -49,7 +49,7 @@ class Task(BaseModel):
     is_critical: Optional[bool] = None                  # "Critical ?" — TRUE/FALSE
     on_hold: Optional[bool] = None                      # "On Hold?"
     not_applicable: Optional[bool] = None               # "Not Applicable?"
-    rag: Optional[str] = None                           # "RAG" — only in S2P_Project, absent from Plan B
+    rag: Optional[str] = None                           # "RAG" — varies by project schema
     schedule_health: Optional[str] = None               # "Schedule Health"
     status_comment: Optional[str] = None                # "Status Comment" — empty in both files per SCHEMA_REFERENCE
     at_risk: Optional[bool] = None                      # "At Risk?"
@@ -59,7 +59,7 @@ class Task(BaseModel):
     duration: Optional[float] = None                    # "Duration"
     total_float: Optional[float] = None                 # "Total Float"
     project_name: Optional[str] = None                  # "Project Name"
-    level: Optional[int] = None                         # "Level" — only in S2P_Project
+    level: Optional[int] = None                         # "Level" — varies by project schema
 
 
 class Comment(BaseModel):

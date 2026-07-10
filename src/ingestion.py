@@ -1,12 +1,12 @@
 """
 Ingestion Layer — loads Excel project plans into the common internal shape.
 
-Handles two distinct schemas (S2P_Project and Project_Plan_B) by mapping
+Handles various supported project plan schemas by mapping
 whatever columns exist to the common ProjectData model. Missing columns
 result in None fields, never silent defaults. Malformed cells are logged
 in data_gaps, not dropped silently.
 
-Column names used here come exclusively from SCHEMA_REFERENCE.md.
+Column names used here come exclusively from the reference schemas.
 """
 
 from __future__ import annotations
@@ -146,7 +146,7 @@ def _safe_float(val) -> Optional[float]:
 # Column mapping — maps actual column names to Task model fields
 # ---------------------------------------------------------------------------
 
-# Columns present in both files (SCHEMA_REFERENCE.md)
+# Core columns expected across standard schemas
 COMMON_COLUMN_MAP = {
     "Task Name": "task_name",
     "Phase/Milestone": "phase_milestone",
@@ -171,7 +171,7 @@ COMMON_COLUMN_MAP = {
     "Project Name": "project_name",
 }
 
-# Columns only in S2P_Project (SCHEMA_REFERENCE.md)
+# Extended columns found in specific advanced schemas
 S2P_EXTRA_COLUMNS = {
     "RAG": "rag",
     "Level": "level",
@@ -264,9 +264,9 @@ def _load_tasks(df: pd.DataFrame, data_gaps: list[str]) -> tuple[list[Task], boo
 def _load_comments(xls: pd.ExcelFile, data_gaps: list[str]) -> list[Comment]:
     """Load the Comments sheet.
 
-    The Comments sheet has no header row in S2P_Project — columns are:
+    The Comments sheet typically has columns:
     [row_reference, comment_text, author, timestamp].
-    For Plan B the sheet is empty (0 rows).
+    If the sheet is empty, it returns an empty list.
     """
     try:
         df = pd.read_excel(xls, sheet_name="Comments", header=None)
@@ -367,7 +367,7 @@ def _load_summary(xls: pd.ExcelFile, data_gaps: list[str]) -> Optional[ProjectSu
 def load_project(filepath: Path) -> ProjectData:
     """Load a project plan Excel file into the common internal shape.
 
-    Works with both S2P_Project.xlsx and Project_Plan_B.xlsx schemas.
+    Works dynamically with supported schema variants.
     Missing columns → None fields. Malformed cells → data_gaps entries.
     Never silently defaults to Green/0/any other value.
     """
@@ -453,10 +453,11 @@ def load_project(filepath: Path) -> ProjectData:
     if project_name is None:
         project_name = filepath.stem
 
-    # Map generic or sheet names to clean business client names: UniSan and Titan
-    if project_name == "Project Plan" or "UniSan" in str(project_name):
+    # Apply business logic aliases for known project names to ensure clean reporting
+    name_lower = str(project_name).lower()
+    if "unisan" in name_lower or project_name == "Project Plan":
         project_name = "UniSan"
-    elif project_name == "Outokumpu- S2P Project" or "Titan" in str(project_name) or "Outokumpu" in str(project_name):
+    elif "titan" in name_lower or "outokumpu" in name_lower or "s2p" in name_lower:
         project_name = "Titan"
 
     return ProjectData(
